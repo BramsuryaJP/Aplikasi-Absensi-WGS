@@ -1,0 +1,106 @@
+<h1 class="h3 mb-4 text-gray-800">Attendance List</h1>
+
+<div class="my-3"></div>
+
+<% const dateOne = new Date() %> 
+<% const dateTwo = new Date(); dateTwo.setMonth(dateOne.getMonth() + 1) %>
+
+<form method="post" action="/filter-attendance-superadmin" >
+  <div class="row">
+      <div class="col-md-2 mb-4">
+        <input type="date" class="form-control" value="<%=typeof date1 !== 'undefined' ? date1 : dateOne.toISOString().slice(0,10)%>" name="date1">
+      </div>
+      <div class="col-md-2 mb-4">
+        <input type="date" class="form-control" value="<%=typeof date2 !== 'undefined' ? date2 : dateTwo.toISOString().slice(0,10)%>" name="date2">
+      </div>
+      <div class="col-md-2 mb-4">
+          <select class="form-control" name="total_hours">
+            <% if (typeof total_hours != 'undefined' && total_hours == 'more') { %>
+                <option value="more">More Than</option>
+                <option value="less">Less Than</option>
+            <% } else{ %>
+                <option value="less">Less Than</option>
+                <option value="more">More Than</option>
+            <% } %>
+          </select>
+      </div>
+      <div class="col-md-2 mb-4">
+        <input readonly type="text" name="hours" class="form-control" value="9 Hours">
+      </div>
+      <div class="col-md-2">
+        <button type="submit" class="btn btn-success btn-icon-split">
+          <span class="icon text-white-50">
+            <i class="fas fa-filter"></i>
+          </span>
+          <span class="text">Filter Search</span>
+        </button>
+      </div>
+  </div>
+</form>
+
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+  <div class="card-header py-3">
+      <h6 class="m-0 font-weight-bold text-primary">Data Attendance</h6>
+  </div>
+  <% if (msg.length > 0) { %>
+    <div class="row justify-content-center">
+      <div class="alert alert-info alert-dismissible fade show mt-3" role="alert" style="width: 95%;">
+        <%= msg  %> 
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    </div>
+  <% } %>
+  <% if (msg2.length > 0) { %>
+    <div class="row justify-content-center">
+      <div class="alert alert-danger alert-dismissible fade show mt-2" role="alert" style="width: 95%;">
+        <%= msg2  %> 
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    </div>
+  <% } %>
+  <div class="card-body">
+    <div class="table-responsive">
+        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+          <thead>
+            <tr>
+              <th>No.</th>
+              <th>Name</th>
+              <th>Date</th>
+              <th>Attendance In</th>
+              <th>Attendance Out</th>
+              <th>Work Hours</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% function capitalize(words) {
+              var separateWord = words.toLowerCase().split(' ');
+              for (var i = 0; i < separateWord.length; i++) {
+                 separateWord[i] = separateWord[i].charAt(0).toUpperCase() +
+                 separateWord[i].substring(1);
+              }
+              return separateWord.join(' ');
+           } %> 
+
+            <% if (model.length > 0) { %>
+              <% let i = 1 %> 
+              <% model.forEach((data) => { %>
+                <tr>
+                  <th class="align-middle" style="width: 8%;"><%= i++  %>. </th>
+                  <td class="align-middle" ><%= capitalize(data.username) %> </td>
+                  <td class="align-middle" ><%= moment(data.date).format(`DD/MM/YYYY`) %> </td>
+                  <td class="align-middle" ><%= data.time_in %> </td>
+                  <td class="align-middle" ><%= data.time_out %> </td>
+                  <td class="align-middle" ><%= data.total_hours %> </td>
+                </tr>
+              <% }) %>
+            <% } %>
+          </tbody>
+        </table>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,59 @@
+
+
+<form method="POST" action="/employee/add-employee" style="width: 50%;" enctype="multipart/form-data">
+  <h1 class="mt-3 mb-2 text-grey-800">Add Employee Form</h1>
+  <div class="my-3"></div>
+
+  <% if (typeof errors != 'undefined') { %>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      <ul>
+        <% errors.forEach(error => { %>
+         <li><%= error.msg %> </li>
+        <% }) %>
+      </ul>
+    </div>
+  <% } %>
+
+  <!-- membuat variable value untuk menampilkan oldValue -->
+  <% let value %> <% if (locals.params) { value = params %>
+  <% } %>
+
+  <div class="mb-3">
+    <label for="inputName" class="form-label">Name</label>
+    <input name="name" type="text" pattern="[a-z A-Z]*" class="form-control" id="inputName" value ="<%= value?.name %>" >
+  </div>
+  <div class="mb-3">
+    <label for="inputPassword" class="form-label">Password</label>
+    <input name="password" type="password" class="form-control" id="inputPassword" >
+  </div>
+  <div class="mb-3">
+    <label for="inputConfirmPassword" class="form-label">Confirm Password</label>
+    <input name="confirmPassword" type="password" class="form-control" id="inputConfirmPassword" >
+  </div>
+  <div class=" form-group mb-3">
+    <label for="inputState">Role</label>
+     
+    <% if (value?.role === null || value?.role === undefined) { %>
+      <select name="role" id="inputState" class="form-control" value="<%= value?.role %>">
+          <option selected disabled value="<%= value?.role %>">Select Role</option>
+          <option value="user" value="<%= value?.role %>">User</option>
+      </select>
+    <% } %>
+    <% if (value?.role === 'user') { %>
+      <select name="role" id="inputState" class="form-control" value="<%= value?.role %>">
+          <option disabled value="<%= value?.role %>">Select Role</option>
+          <option selected value="user" value="<%= value?.role %>">User</option>
+      </select>
+    <% } %>
+  </div>
+  <div class="mb-4">
+    <label for="image" class="form-label">Photo</label>
+    <input type="file" accept="image/png, image/jpg, image/jpeg" class="form-control-file border" id="image" name="uploadImage">
+  </div>
+  <a href="/admin/dashboard" class="btn btn-dark">
+    <span class="text">Back</span>
+  </a>
+  <button type="submit" class="btn btn-success">
+    <span class="text">Add Employee</span>
+  </button>
+</form>

@@ -1,0 +1,130 @@
+
+
+  <form method="POST" action="/admin/attendance" style="width: 50%;">
+    <h1 class="mt-3 mb-2 text-grey-800">Attendance Form</h1>
+    <div class="my-3"></div>
+    
+    <% if (typeof model === 'undefined' || model.time_in === null) { %>
+      <% if (typeof errors != 'undefined') { %>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <ul>
+            <% errors.forEach(error => { %>
+            <li><%= error.msg %> </li>
+            <% }) %>
+          </ul>
+        </div>
+      <% } %>
+    
+      <% 
+        let today = new Date() 
+        let dd = String(today.getDate()).padStart(2, '0'); 
+        let mm = String(today.getMonth() + 1).padStart(2, '0');
+        let yyyy = today.getFullYear()  
+        
+        const date = `${mm}/${dd}/${yyyy}`
+      %> 
+  
+      <input type="text" class="form-control" name="id" value="<%= id %>" hidden>
+      <div class="mb-3">
+        <label for="inputName" class="form-label">Name</label>
+        <input disabled name="name" type="text" class="form-control" id="inputName" value="<%= session.userid %>" >
+      </div>
+      <div class="mb-3">
+        <label for="inputDate" class="form-label">Date</label>
+        <input disabled name="date" type="text" class="form-control" id="inputDate" value="<%= date %> ">
+      </div>
+        <div class="mb-3" onload="showTime()">
+          <label for="inputAttendanceIn" class="form-label">Attendance In</label>
+          <input disabled name="attendanceIn" type="text"  class="form-control" id="attendanceIn">
+        </div>
+        <a href="/user/dashboard" class="btn btn-dark mt-3">
+          <span class="text">Back</span>
+        </a>
+        <button type="submit" class="btn btn-success mt-3">
+          <span class="text">Attendance In</span>
+        </button>
+    <% } else if (model.time_out === null) { %>
+        <% if (typeof errors != 'undefined') { %>
+          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <ul>
+              <% errors.forEach(error => { %>
+              <li><%= error.msg %> </li>
+              <% }) %>
+            </ul>
+          </div>
+        <% } %>
+    
+        <!-- membuat variable value untuk menampilkan oldValue -->
+        <% let value %> <% if (locals.params) { value = params %>
+        <% } %>
+      
+        <% 
+          let today = new Date() 
+          let dd = String(today.getDate()).padStart(2, '0'); 
+          let mm = String(today.getMonth() + 1).padStart(2, '0');
+          let yyyy = today.getFullYear()  
+          
+          const date = `${mm}/${dd}/${yyyy}`
+        %> 
+    
+        <input type="text" class="form-control" name="id" value="<%= id %>" hidden>
+        <div class="mb-3">
+          <label for="inputName" class="form-label">Name</label>
+          <input disabled name="name" type="text" class="form-control" id="inputName" value="<%= session.userid %>" >
+        </div>
+        <div class="mb-3">
+          <label for="inputDate" class="form-label">Date</label>
+          <input disabled name="date" type="text" class="form-control" id="inputDate" value="<%= date %> ">
+        </div>
+        <div class="mb-3" onload="showTime()">
+          <label for="inputAttendanceOut" class="form-label">Attendance Out</label>
+          <input disabled name="attendanceOut" type="text"  class="form-control" id="attendanceIn">
+        </div>
+        <a href="/user/dashboard" class="btn btn-dark mt-3">
+          <span class="text">Back</span>
+        </a>
+        <button type="submit" class="btn btn-success mt-3">
+          <span class="text">Attendance Out</span>
+        </button>
+      <% } else { %> 
+          <div class="row justify-content-center">
+            <div class="alert alert-info alert-dismissible fade show mt-2" role="alert" style="width:98%;">
+              Your Attendance Today Has Been Recorded, Come Again Tommorow
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          </div>
+      <% } %>
+  </form>
+ 
+
+<script>
+  function showTime() {
+    let time = new Date();
+    let hour = time.getHours();
+    let minute = time.getMinutes();
+    let second = time.getSeconds();
+    let area = "AM";
+
+    if (hour == 0) {
+      hour = 24;
+    }
+    if (hour > 24) {
+      hour = hour - 24;
+      area = "PM"
+    }
+
+    hour = (hour < 10) ? "0" + hour : hour;
+    minute = (minute < 10) ? "0" + minute : minute;
+    second = (second < 10) ? "0" + second : second;
+
+    let nowTime = hour + ":" + minute + ":" + second + " " + area;
+
+    document.getElementById("attendanceIn").value = nowTime;
+    document.getElementById("attendanceIn").textContent = nowTime;
+
+    setInterval(showTime, 1000);
+  }
+  showTime();
+</script>

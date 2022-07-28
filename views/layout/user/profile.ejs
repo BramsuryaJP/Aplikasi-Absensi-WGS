@@ -1,0 +1,38 @@
+
+<form method="POST" action="/employee/update-profile-user" style="width: 50%;" enctype="multipart/form-data">
+  <h1 class="mt-3 mb-2 text-grey-800">Edit Profile</h1>
+  <div class="my-3"></div>
+
+  <img class="img-profile rounded-circle" style="width: 260px; height: 260px;" src="../../../uploads/<%= model.photo %> ">
+  <div class="my-3"></div>
+
+  <% if (typeof errors != 'undefined') { %>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      <ul>
+        <% errors.forEach(error => { %>
+        <li><%= error.msg %> </li>
+        <% }) %>
+      </ul>
+    </div>
+  <% } %>
+
+  <input type="hidden" name="oldName" value="<%= model.oldName || model.username %>">
+  <div class="mb-3">
+    <label for="inputName" class="form-label">Name</label>
+    <input disabled name="name" type="text" pattern="[a-z A-Z]*" class="form-control" id="inputName" value="<%= model.username %>">
+  </div>
+  <div class="mb-3">
+    <label for="inputName" class="form-label">Role</label>
+    <input disabled name="name" type="text" class="form-control" id="inputName" value="<%= model.role %>">
+  </div>
+  <div class="mb-3">
+    <label for="image" class="form-label">Photo</label>
+    <input type="file" accept="image/png, image/jpg, image/jpeg" class="form-control-file border" id="image" name="uploadImage" value="<%= model.photo %>">
+  </div>
+  <a href="/user/dashboard" class="btn btn-dark mt-3">
+    <span class="text">Back</span>
+  </a>
+  <button type="submit" id="editProfile" class="btn btn-success mt-3" disabled="true">
+    <span class="text">Edit Profile</span>
+  </button>
+</form>

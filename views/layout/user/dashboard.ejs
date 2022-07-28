@@ -1,0 +1,84 @@
+
+<% if (msg3.length > 0) { %>
+  <div class="row justify-content-center">
+    <div class="alert alert-info alert-dismissible fade show mt-2" role="alert" style="width:98%;">
+      <h6 class="capitalize"><%= msg3  %></h6>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  </div>
+<% } %>
+
+<h1 class="h3 mb-4 text-gray-800">Dashboard</h1>
+
+<div class="my-3"></div>
+
+<a href="/user/add-attendance" class="btn btn-success btn-icon-split">
+  <span class="icon text-white-50">
+    <i class="fas fa-plus"></i>
+  </span>
+  <span class="text">Add Attendance</span>
+</a>
+
+<div class="my-3"></div>
+
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+  <div class="card-header py-3">
+      <h6 class="m-0 font-weight-bold text-primary">Attendance History</h6>
+  </div>
+  <% if (msg.length > 0) { %>
+    <div class="row justify-content-center">
+      <div class="alert alert-info alert-dismissible fade show mt-3" role="alert" style="width: 95%;">
+        <h6 class="capitalize"><%= msg  %></h6> 
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    </div>
+  <% } %>
+  <% if (msg2.length > 0) { %>
+    <div class="row justify-content-center">
+      <div class="alert alert-danger alert-dismissible fade show mt-2" role="alert" style="width: 95%;">
+        <h6 class="capitalize"><%= msg2  %></h6> 
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    </div>
+  <% } %>
+  <div class="card-body">
+    <div class="table-responsive">
+        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+          <thead>
+            <tr>
+              <th>No.</th>
+              <th>Date</th>
+              <th>Attendance In</th>
+              <th>Attendance Out</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if (model.length > 0) { %>
+              <% let i = 1 %> 
+              <% model.forEach((data) => { %>
+                <tr>
+                  <th class="align-middle" style="width: 8%;"><%= i++  %>. </th>
+                  <td class="align-middle" ><%= moment(data.date).format(`DD/MM/YYYY`) %> </td>
+                  <td class="align-middle" ><%= data.time_in %> </td>
+                  <td class="align-middle" ><%= data.time_out %> </td>
+                </tr>
+              <% }) %>
+            <% } %>
+          </tbody>
+        </table>
+    </div>
+  </div>
+</div>
+
+<style scoped>
+  .capitalize {
+    text-transform: capitalize;
+  }
+</style>
